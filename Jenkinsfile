@@ -33,5 +33,17 @@ pipeline {
                 sh 'npm audit || true'
             }
         }
+
+        stage('SonarCloud Analysis') {
+            steps {
+                withSonarQubeEnv('SonarCloud') {
+                    withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                        sh '''
+                            ${tool 'SonarScanner'}/bin/sonar-scanner
+                        '''
+                    }
+                }
+            }
+        }
     }
 }
