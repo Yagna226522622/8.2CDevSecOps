@@ -34,13 +34,15 @@ pipeline {
             }
         }
 
-stage('SonarCloud Analysis') {
-    steps {
-        withSonarQubeEnv('SonarCloud') {
-            withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONAR_TOKEN')]) {
-                sh '''
-                    ${tool 'SonarScanner'}/bin/sonar-scanner
-                '''
+        stage('SonarCloud Analysis') {
+            steps {
+                withSonarQubeEnv('SonarCloud') {
+                    withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONAR_TOKEN')]) {
+                        sh '''
+                            ${tool 'SonarScanner'}/bin/sonar-scanner
+                        '''
+                    }
+                }
             }
         }
     }
