@@ -39,7 +39,7 @@ pipeline {
                 withSonarQubeEnv('SonarCloud') {
                     withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONAR_TOKEN')]) {
                         sh '''
-                            sonar-scanner
+                            ${tool 'SonarScanner'}/bin/sonar-scanner
                         '''
                     }
                 }
