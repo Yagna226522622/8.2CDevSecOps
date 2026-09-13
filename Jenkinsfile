@@ -43,19 +43,20 @@ pipeline {
                             variable: 'SONAR_TOKEN'
                         )
                     ]) {
-                        sh '''
-                            export PATH="/opt/node24/bin:$PATH"
+                        script {
+                            def scannerHome = tool 'SonarScanner'
 
-                            echo "Node version:"
-                            node -v
+                            sh """
+                                echo "Running SonarScanner..."
+                                echo "Scanner location: ${scannerHome}"
+                                echo "Node version:"
+                                node -v
+                                echo "NPM version:"
+                                npm -v
 
-                            echo "NPM version:"
-                            npm -v
-
-                            ${tool 'SonarScanner'}/bin/sonar-scanner \
-                                -Dsonar.token=$SONAR_TOKEN \
-                                -Dsonar.nodejs.executable=/opt/node24/bin/node
-                        '''
+                                ${scannerHome}/bin/sonar-scanner
+                            """
+                        }
                     }
                 }
             }
